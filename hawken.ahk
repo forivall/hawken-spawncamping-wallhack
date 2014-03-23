@@ -1,6 +1,7 @@
 ; hawken.ahk
 
 #NoEnv
+#MaxThreadsPerHotkey 1
 SendMode Input
 SetWorkingDir %A_ScriptDir%
 
@@ -83,16 +84,23 @@ if text_chat_mode {
   return
 }
 Send {Blind}{w Up}
+Send {Blind}{a Up}
+Send {Blind}{d Up}
 Send {Blind}{s Down}
 Send {Blind}{LShift Down}
 
 KeyWait, x
 
-if GetKeyState("W", "P")
-  Send {Blind}{w Down}
-Send {Blind}{s Up}
 if not GetKeyState("LShift", "P")
   Send {Blind}{LShift Up}
+if not GetKeyState("S", "P")
+  Send {Blind}{s Up}
+if (GetKeyState("E", "P") or GetKeyState("D", "P"))
+  Send {Blind}{d Down}
+if (GetKeyState("Q", "P") or GetKeyState("A", "P"))
+  Send {Blind}{a Down}
+if GetKeyState("W", "P")
+  Send {Blind}{w Down}
 return
 
 ; don't allow shift + back to spin
@@ -106,11 +114,11 @@ if (GetKeyState("Q", "P") or GetKeyState("E", "P") or GetKeyState("LShift", "P")
   Send {Blind}{LShift Up}
   sleep, 10
 }
+
 Send {Blind}{s Down}
-
 KeyWait, s
-
 Send {Blind}{s Up}
+
 if (GetKeyState("Q", "P") or GetKeyState("E", "P") or GetKeyState("LShift", "P"))
   Send {Blind}{LShift Down}
 return
